@@ -410,6 +410,7 @@ main() {
     
     check_root
     detect_os
+    install_packages
     get_server_info
     
     echo
@@ -427,7 +428,6 @@ main() {
         exit 0
     fi
     
-    install_packages
     setup_easyrsa
     create_server_config
     setup_firewall
