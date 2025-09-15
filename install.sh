@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# OpenVPN Auto Installer Script
+# For quick deployment and easy access
+# Repository: https://github.com/rbwtech/ovpn-basic
+
 set -e
 
 # Colors for output
@@ -6,7 +11,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m'
+NC='\033[0m' # No Color
 
 # Print colored output
 print_status() {
@@ -205,12 +210,15 @@ EOF
 setup_firewall() {
     print_status "Mengkonfigurasi firewall..."
     
-    # Enable IP forwarding
-    echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
-    sysctl -p
+    # Enable IP forwarding (check if already exists)
+    if ! grep -q "net.ipv4.ip_forward=1" /etc/sysctl.conf; then
+        echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+    fi
+    sysctl -w net.ipv4.ip_forward=1
     
     # Get network interface
     NIC=$(ip route | grep default | awk '{print $5}' | head -1)
+    print_status "Network interface: $NIC"
     
     # Setup iptables rules
     iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o $NIC -j MASQUERADE
@@ -220,6 +228,7 @@ setup_firewall() {
     
     # Save iptables rules
     if [[ $OS == "debian" ]]; then
+        mkdir -p /etc/iptables
         iptables-save > /etc/iptables/rules.v4
     elif [[ $OS == "centos" ]]; then
         service iptables save
@@ -410,7 +419,6 @@ main() {
     
     check_root
     detect_os
-    install_packages
     get_server_info
     
     echo
@@ -428,6 +436,7 @@ main() {
         exit 0
     fi
     
+    install_packages
     setup_easyrsa
     create_server_config
     setup_firewall
