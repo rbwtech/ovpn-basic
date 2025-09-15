@@ -86,7 +86,7 @@ print_status "  UNINSTALL SELESAI!"
 print_status "================================"
 echo
 print_status "OpenVPN telah dihapus sepenuhnya dari sistem."
-print_status "Anda bisa menjalankan install.sh untuk fresh install."
+print_status "Anda bisa menjalankan ovpn-install.sh untuk fresh install."
 echo
 print_warning "Reboot sistem untuk memastikan semua perubahan diterapkan:"
 echo "  sudo reboot"
