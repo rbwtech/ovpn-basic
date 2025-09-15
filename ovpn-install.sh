@@ -1,19 +1,12 @@
 #!/bin/bash
-
-# OpenVPN Auto Installer Script
-# For quick deployment and easy access
-# Repository: https://github.com/rbwtech/ovpn-basic
-
 set -e
-
-# Colors for output
+t
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m' 
 
-# Print colored output
 print_status() {
     echo -e "${GREEN}[INFO]${NC} $1"
 }
@@ -191,7 +184,6 @@ push "dhcp-option DNS $DNS2"
 keepalive 10 120
 cipher AES-256-CBC
 auth SHA256
-comp-lzo
 user nobody
 group nogroup
 persist-key
@@ -252,7 +244,6 @@ resolv-retry infinite
 nobind
 persist-key
 persist-tun
-comp-lzo
 verb 3
 
 <ca>
@@ -332,7 +323,6 @@ resolv-retry infinite
 nobind
 persist-key
 persist-tun
-comp-lzo
 verb 3
 
 <ca>
